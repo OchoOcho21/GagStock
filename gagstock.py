@@ -95,7 +95,7 @@ async def check_updates(bot: Bot):
 
         night_items = night.get("nightStock", [])
         night_text = "\n".join([f"🌌 {item['name']} (x{item['value']})" for item in night_items]) if night_items else "No night stock available."
-        
+
         easter_items = night.get("easterStock", [])
         easter_text = "\n".join([f"🐣 {item['name']} (x{item['value']})" for item in easter_items]) if easter_items else "No easter stock available."
 
