@@ -40,7 +40,7 @@ async def get_data():
         honey = await session.get("https://growagardenstock.com/api/special-stock?type=honey")
         blood = await session.get("https://growagardenstock.com/api/special-stock?type=blood-twilight")
         cosmetics = await session.get("https://growagardenstock.com/api/special-stock?type=cosmetics")
-        night = await session.get("https://vmi2625091.contaboserver.net/api/stocks/night")
+        night = await session.get("https://kenlie.top/api/gag/stocks/")
         return (
             await gear.json(), await egg.json(), await weather.json(),
             await honey.json(), await blood.json(), await cosmetics.json(), await night.json()
@@ -93,16 +93,24 @@ async def check_updates(bot: Bot):
         honey_text = "\n".join([f"🍯 {item}" for item in honey.get("honey", [])]) if honey.get("honey") else "No honey stock available."
         honey_message = f"📦 𝗛𝗼𝗻𝗲𝘆 𝗦𝘁𝗼𝗰𝗸\n\n{honey_text}\n\nMade by: @OchoOcho21"
 
-        night_items = night.get("night", [])
+        night_items = night.get("nightStock", [])
         night_text = "\n".join([f"🌌 {item['name']} (x{item['value']})" for item in night_items]) if night_items else "No night stock available."
-        night_message = f"🌙 𝗡𝗶𝗴𝗵𝘁 𝗦𝘁𝗼𝗰𝗸\n\n{night_text}\n\nMade by: @OchoOcho21"
+        
+        easter_items = night.get("easterStock", [])
+        easter_text = "\n".join([f"🐣 {item['name']} (x{item['value']})" for item in easter_items]) if easter_items else "No easter stock available."
+
+        special_message = (
+            f"🌙 𝗡𝗶𝗴𝗵𝘁 𝗦𝘁𝗼𝗰𝗸\n\n{night_text}\n\n"
+            f"🐣 𝗘𝗮𝘀𝘁𝗲𝗿 𝗦𝘁𝗼𝗰𝗸\n\n{easter_text}\n\n"
+            f"Made by: @OchoOcho21"
+        )
 
         for chat_id in get_all_chat_ids():
             await bot.send_message(chat_id=chat_id, text=stock_message)
             await bot.send_message(chat_id=chat_id, text=weather_message)
             await bot.send_message(chat_id=chat_id, text=reset_message)
             await bot.send_message(chat_id=chat_id, text=honey_message)
-            await bot.send_message(chat_id=chat_id, text=night_message)
+            await bot.send_message(chat_id=chat_id, text=special_message)
 
     except Exception as e:
         err_msg = f"❌ GAGSTOCK ERROR:\n\n{e}\n\nTraceback:\n{traceback.format_exc()}"
