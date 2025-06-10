@@ -117,7 +117,8 @@ async def check_updates(bot: Bot):
         if cosmetics.get("cosmetics"):
             special_msgs.append("🧴 Cosmetics: " + ", ".join(cosmetics["cosmetics"]))
         if special_msgs:
-            msg = "\n\n".join(special_msgs) + "\n\nMade by: @OchoOcho21"
+            msg = "\n\n".join(special_msgs)
+            msg += "\n\nMade by: @OchoOcho21"
             for chat_id in get_all_chat_ids():
                 try:
                     await bot.send_message(chat_id=chat_id, text=msg)
