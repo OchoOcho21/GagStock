@@ -1,6 +1,6 @@
 import aiohttp
 import asyncio
-from db import get_all_chat_ids, remove_chat_id, load_stock_cache, save_stock_cache
+from db import get_all_chat_ids, remove_chat_id, load_stock_data, save_stock_data
 from telegram import Bot
 from datetime import datetime, timedelta
 import traceback
@@ -66,14 +66,14 @@ async def check_updates(bot: Bot):
             "cosmetics": normalize_stock(cosmetics.get("cosmetics", []))
         }
 
-        previous = load_stock_cache()
+        previous = load_stock_data("gagstock") or {}
         diffs = [compare_stock(previous.get(key), current[key], key) for key in current]
         change_message = "\n".join([d for d in diffs if d.strip()])
 
         if not change_message:
             return
 
-        save_stock_cache(current)
+        save_stock_data("gagstock", current)
 
         now = get_ph_time().strftime("%m/%d/%Y, %I:%M:%S %p")
         reset_in = get_next_reset(5)
