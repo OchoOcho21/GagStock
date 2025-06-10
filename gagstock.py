@@ -90,20 +90,17 @@ async def check_updates(bot: Bot):
         cosmetics_reset = get_next_7hour_reset()
 
         reset_message = (
-    f"🔁 𝗥𝗲𝘀𝗲𝘁 𝗧𝗶𝗺𝗲𝘀\n\n"
-    f"🛠️ 𝗚𝗲𝗮𝗿 / 🌱 𝗦𝗲𝗲𝗱: ⏳ In {gear_reset // 60}m {gear_reset % 60}s\n"
-    f"🥚 𝗘𝗴𝗴𝘀: ⏳ In {egg_reset // 60}m {egg_reset % 60}s\n"
-    f"🍯 𝗛𝗼𝗻𝗲𝘆: ⏳ In {honey_reset // 60}m {honey_reset % 60}s\n"
-    f"🧴 𝗖𝗼𝘀𝗺𝗲𝘁𝗶𝗰𝘀: ⏳ In {cosmetics_reset // 3600}h {(cosmetics_reset % 3600) // 60}m\n\n"
-    f"Made by: @OchoOcho21"
-)
+            f"🔁 𝗥𝗲𝘀𝗲𝘁 𝗧𝗶𝗺𝗲𝘀\n\n"
+            f"🛠️ 𝗚𝗲𝗮𝗿 / 🌱 𝗦𝗲𝗲𝗱: ⏳ In {gear_reset // 60}m {gear_reset % 60}s\n"
+            f"🥚 𝗘𝗴𝗴𝘀: ⏳ In {egg_reset // 60}m {egg_reset % 60}s\n"
+            f"🍯 𝗛𝗼𝗻𝗲𝘆: ⏳ In {honey_reset // 60}m {honey_reset % 60}s\n"
+            f"🧴 𝗖𝗼𝘀𝗺𝗲𝘁𝗶𝗰𝘀: ⏳ In {cosmetics_reset // 3600}h {(cosmetics_reset % 3600) // 60}m\n\n"
+            f"Made by: @OchoOcho21"
+        )
 
         now = get_ph_time().strftime("%m/%d/%Y, %I:%M:%S %p")
 
-        full_msg = (
-            f"🔔 Stock Changes Detected @ {now}\n\n"
-            + change_message + "\n\n" + reset_message
-        )
+        full_msg = f"🔔 Stock Changes Detected @ {now}\n\n{change_message}\n\n{reset_message}"
 
         for chat_id in get_all_chat_ids():
             try:
@@ -124,16 +121,17 @@ async def check_updates(bot: Bot):
             for chat_id in get_all_chat_ids():
                 try:
                     await bot.send_message(chat_id=chat_id, text=msg)
-                except: pass
+                except:
+                    pass
 
         if night.get("night"):
             night_stock = ", ".join(night["night"])
-            msg = f"🌙 Night Stock:
-{night_stock}\n\nMade by: @OchoOcho21"
+            msg = f"🌙 Night Stock:\n{night_stock}\n\nMade by: @OchoOcho21"
             for chat_id in get_all_chat_ids():
                 try:
                     await bot.send_message(chat_id=chat_id, text=msg)
-                except: pass
+                except:
+                    pass
 
     except Exception as e:
         err_msg = f"❌ GAGSTOCK ERROR:\n\n{e}\n\nTraceback:\n{traceback.format_exc()}"
